@@ -1,3 +1,3 @@
 FROM tomcat
 
-COPY /target/rootA.war /dousr/local/tomcat/webapps/
+COPY /target/*.war /usr/local/tomcat/webapps/

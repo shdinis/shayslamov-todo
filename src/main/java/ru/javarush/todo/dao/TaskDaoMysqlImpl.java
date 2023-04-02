@@ -1,4 +1,4 @@
-package ru.javarush.dao;
+package ru.javarush.todo.dao;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
@@ -7,14 +7,14 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import ru.javarush.domain.Task;
+import ru.javarush.todo.entity.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class TaskDao {
+public class TaskDaoMysqlImpl implements TaskDao{
     private final SessionFactory sessionFactory;
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
@@ -32,10 +32,10 @@ public class TaskDao {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Task getById(int id) {
+    public Optional<Task> getById(int id) {
         Query<Task> query = getSession().createQuery("select t from Task t where t.id = :ID", Task.class);
-        query.setParameter("ID" , id);
-        return query.uniqueResult();
+        query.setParameter("ID", id);
+        return Optional.ofNullable(query.uniqueResult());
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

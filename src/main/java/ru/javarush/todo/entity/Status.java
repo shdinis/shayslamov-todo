@@ -1,4 +1,4 @@
-package ru.javarush.domain;
+package ru.javarush.todo.entity;
 
 public enum Status {
     IN_PROGRESS,

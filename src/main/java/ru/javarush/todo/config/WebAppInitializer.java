@@ -1,4 +1,4 @@
-package ru.javarush.config;
+package ru.javarush.todo.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 

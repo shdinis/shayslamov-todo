@@ -1,15 +1,14 @@
-package ru.javarush.service;
+package ru.javarush.todo.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javarush.dao.TaskDao;
-import ru.javarush.domain.Status;
-import ru.javarush.domain.Task;
+import ru.javarush.todo.dao.TaskDao;
+import ru.javarush.todo.entity.Status;
+import ru.javarush.todo.entity.Task;
+import ru.javarush.todo.exception.NotFoundException;
 
 import java.util.List;
-
-import static java.util.Objects.isNull;
 
 @AllArgsConstructor
 @Service
@@ -24,16 +23,9 @@ public class TaskService {
         return taskDao.getAllCount();
     }
 
-    public Task getById(int id) {
-        return taskDao.getById(id);
-    }
-
     @Transactional
     public Task edit(int id, String description, Status status) {
-        Task task = taskDao.getById(id);
-        if (isNull(task)) {
-            throw new RuntimeException("not found");
-        }
+        Task task = taskDao.getById(id).orElseThrow(() -> new NotFoundException("Not found task with id=%d".formatted(id)));
         task.setDescription(description);
         task.setStatus(status);
         taskDao.saveOrUpdate(task);
@@ -50,10 +42,7 @@ public class TaskService {
 
     @Transactional
     public void delete(int id) {
-        Task task = taskDao.getById(id);
-        if (isNull(task)) {
-            throw new RuntimeException("not found");
-        }
+        Task task = taskDao.getById(id).orElseThrow(() -> new NotFoundException("Not found task with id=%d".formatted(id)));
         taskDao.delete(task);
     }
 }

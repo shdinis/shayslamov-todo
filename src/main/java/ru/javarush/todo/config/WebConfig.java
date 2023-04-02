@@ -1,4 +1,4 @@
-package ru.javarush.config;
+package ru.javarush.todo.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +17,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 @AllArgsConstructor
 @Configuration
 @EnableWebMvc
-@ComponentScan("ru.javarush")
+@ComponentScan("ru.javarush.todo")
 public class WebConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 
@@ -27,8 +27,9 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setApplicationContext(applicationContext);
         resolver.setPrefix("/html/");
         resolver.setSuffix(".html");
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setTemplateMode(TemplateMode.HTML);
-        resolver.setCacheable(false); //на продакшене этот параметр ставят true, сейчас false т.к. каждый раз иначе нужно будет нажимать Ctrl+Shift+F
+        resolver.setCacheable(false);
         return resolver;
     }
 
